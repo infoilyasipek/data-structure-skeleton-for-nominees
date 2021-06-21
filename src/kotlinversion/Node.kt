@@ -13,29 +13,40 @@ class Node(var data: Int) {
         n.following = end
     }
 
-    // TODO:: Implement to return the length of the SinglyLinkedList
-    // For example:: --> 5 --> 6 --> 7 --> 3 --> .
-    fun printNodes() {}
-
-    // TODO:: Implement to return the length of the SinglyLinkedList
-    fun length(h: Node?): Int {
-        return 0
+    fun printNodes() {
+        println(getNodes().joinToString(" --> ", transform = { it.data.toString() }))
     }
 
-    // TODO:: Implement to return the sum of the Nodes
+    fun length(h: Node? = this): Int {
+        return getNodes(h).size
+    }
+
     fun sumOfNodes(): Int {
-        return 0
+        return getNodes().sumBy { it.data }
     }
 
     fun deleteNode(head: Node, data: Int): Node? {
-        val n: Node = head
-
-        if(n.data == data) {
-            return head.following
+        var n: Node = head
+        var deletedNode: Node? = null
+        while (n.following != null) {
+            if (n.following!!.data == data) {
+                deletedNode = n.following!!
+                n.following = n.following!!.following
+                return deletedNode
+            }
+            n = n.following!!
         }
-        // TODO:: Implement the proper loop in order to remove given data
+        return deletedNode
+    }
 
-        //
-        return head
+    private fun getNodes(node: Node? = this): List<Node> {
+        var n: Node? = node
+        val nodes = mutableListOf<Node>()
+        while (n!!.following != null) {
+            nodes.add(n)
+            n = n.following
+        }
+        nodes.add(n)
+        return nodes
     }
 }
